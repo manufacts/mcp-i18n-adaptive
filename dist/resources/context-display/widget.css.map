@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../resources/styles.css"],
+  "sourcesContent": ["@import \"tailwindcss\";\n@source \"./**/*.{ts,tsx,js,jsx,html}\";\n@theme { --color-scheme: light dark; }\n@variant dark (&:where(.dark, .dark *));\nbody { margin: 0; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", sans-serif; }\n"],
+  "mappings": ";;;AACA,QAAQ;AACR,OAAO,EAAE,cAAc,EAAE,MAAM,IAAI;AACnC,SAAS,KAAK,CAAC,CAAC,CAAC,MAAM,CAAC,IAAI,EAAE,CAAC,KAAK;AACpC;AAAO,UAAQ;AAAG;AAAA,IAAa,aAAa;AAAA,IAAE,kBAAkB;AAAA,IAAE,UAAU;AAAA,IAAE,QAAQ;AAAA,IAAE;AAAY;",
+  "names": []
+}
