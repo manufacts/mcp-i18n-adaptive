@@ -2,3 +2,5 @@
 
 # mcp-use deployment
 .mcp-use
+
+node_modules/

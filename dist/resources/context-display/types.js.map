@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../resources/context-display/types.ts"],
-  "sourcesContent": ["import { z } from \"zod\";\n\nexport const propSchema = z.object({\n  greeting: z.string(),\n  timestamp: z.string(),\n  sampleNumbers: z.array(z.number()),\n  sampleDates: z.array(z.string()),\n});\n\nexport type ContextDisplayProps = z.infer<typeof propSchema>;\n"],
-  "mappings": ";AAAA,SAAS,SAAS;AAEX,IAAM,aAAa,EAAE,OAAO;AAAA,EACjC,UAAU,EAAE,OAAO;AAAA,EACnB,WAAW,EAAE,OAAO;AAAA,EACpB,eAAe,EAAE,MAAM,EAAE,OAAO,CAAC;AAAA,EACjC,aAAa,EAAE,MAAM,EAAE,OAAO,CAAC;AACjC,CAAC;",
-  "names": []
-}
