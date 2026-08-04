@@ -1,22 +1,7 @@
-import {
-  McpUseProvider,
-  useWidget,
-  type WidgetMetadata,
-} from "mcp-use/react";
+import { useHostContext, useToolContext, useViewTheme } from "mcp-use/react";
 import React, { useMemo } from "react";
 import "../styles.css";
-import { propSchema, type ContextDisplayProps } from "./types";
-
-export const widgetMetadata: WidgetMetadata = {
-  description: "Host context inspector — locale, timezone, layout, device",
-  props: propSchema,
-  exposeAsTool: false,
-  metadata: {
-    prefersBorder: true,
-    invoking: "Detecting context…",
-    invoked: "Context ready",
-  },
-};
+import type { ContextDisplayProps } from "./types";
 
 function StatusDot({ active }: { active: boolean }) {
   return (
@@ -65,9 +50,9 @@ function KV({ label, value }: { label: string; value: React.ReactNode }) {
 function SafeAreaBox({
   safeArea,
 }: {
-  safeArea: { insets?: { top: number; right: number; bottom: number; left: number } };
+  safeArea: { top: number; right: number; bottom: number; left: number };
 }) {
-  const insets = safeArea.insets ?? { top: 0, right: 0, bottom: 0, left: 0 };
+  const insets = safeArea;
   return (
     <div className="relative w-full h-28 rounded border border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center text-[10px] text-gray-400 dark:text-gray-500">
       <span className="absolute top-1 left-1/2 -translate-x-1/2 font-mono">
@@ -100,9 +85,8 @@ function SafeAreaBox({
 }
 
 const ContextDisplay: React.FC = () => {
+  const view = useToolContext<"show-context">();
   const {
-    props,
-    isPending,
     locale,
     timeZone,
     userAgent,
@@ -111,11 +95,10 @@ const ContextDisplay: React.FC = () => {
     maxHeight,
     hostInfo,
     hostCapabilities,
-    isAvailable,
-    output,
-    theme,
     displayMode,
-  } = useWidget<ContextDisplayProps>();
+  } = useHostContext();
+  const theme = useViewTheme();
+  const props = view.toolOutput as ContextDisplayProps | undefined;
 
   const gridCols = useMemo(() => {
     if (!maxWidth || maxWidth < 400) return 1;
@@ -156,24 +139,23 @@ const ContextDisplay: React.FC = () => {
     }
   }, [props?.sampleDates, locale, timeZone]);
 
-  if (isPending) {
+  if (view.status === "pending") {
     return (
-      <McpUseProvider autoSize>
-        <div className="p-5">
-          <div className="flex items-center gap-3">
-            <div className="h-5 w-5 rounded-full border-2 border-blue-500 border-t-transparent animate-spin" />
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              Detecting host context…
-            </span>
-          </div>
+      <div className="p-5">
+        <div className="flex items-center gap-3">
+          <div className="h-5 w-5 rounded-full border-2 border-blue-500 border-t-transparent animate-spin" />
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            Detecting host context…
+          </span>
         </div>
-      </McpUseProvider>
+      </div>
     );
   }
 
+  if (view.status === "error") return <div role="alert">{view.error.message}</div>;
+
   return (
-    <McpUseProvider autoSize>
-      <div className="p-4">
+    <div className="p-4">
         <div className="flex items-center gap-2.5 mb-4">
           <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">
             Host Context Inspector
@@ -193,9 +175,9 @@ const ContextDisplay: React.FC = () => {
           {/* Connection */}
           <Section title="Connection">
             <div className="flex items-center gap-2">
-              <StatusDot active={!!isAvailable} />
+              <StatusDot active />
               <span className="text-xs">
-                {isAvailable ? "Connected" : "Disconnected"}
+                Connected
               </span>
             </div>
           </Section>
@@ -311,23 +293,8 @@ const ContextDisplay: React.FC = () => {
             />
           </Section>
 
-          {/* Output */}
-          {output && (
-            <Section title="Output">
-              <div className="text-xs text-gray-600 dark:text-gray-400">
-                {typeof output === "string" ? (
-                  <p>{output}</p>
-                ) : (
-                  <pre className="font-mono whitespace-pre-wrap">
-                    {JSON.stringify(output, null, 2)}
-                  </pre>
-                )}
-              </div>
-            </Section>
-          )}
         </div>
       </div>
-    </McpUseProvider>
   );
 };
 

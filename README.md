@@ -8,7 +8,7 @@
   </a>
 </p>
 
-Showcase of adaptive context awareness. The server detects the connected client (ChatGPT, Claude, Inspector), reads user agent info, locale, viewport, safe area insets, and dynamically adapts its responses and widget rendering.
+Showcase of adaptive context awareness. The server detects the connected client (ChatGPT, Claude, Inspector), reads user agent info, locale, viewport, safe area insets, and dynamically adapts its responses and MCP App view rendering.
 
 ![i18n Adaptive Demo](./repo-assets/demo.gif)
 
@@ -39,18 +39,18 @@ Or open the [Inspector](https://inspector.manufact.com/inspector?autoConnect=htt
 - **User agent parsing** — read OS, browser, device type
 - **Locale awareness** — detect user's preferred language
 - **Viewport & safe area** — adapt to screen size and safe area insets
-- **Context widget** — rich display of all detected client info
+- **Context view** — rich MCP App display of all detected client info
 
 ## Tools
 
 | Tool | Description |
 |------|-------------|
-| `show-context` | Display all detected client context in a rich widget |
+| `show-context` | Display all detected client context in a rich MCP App view |
 | `detect-caller` | Return raw client detection data as text |
 
-## Available Widgets
+## MCP App view
 
-| Widget | Preview |
+| View | Preview |
 |--------|---------|
 | `context-display` | <img src="./repo-assets/widget-context-display.png" width="500" /> |
 
